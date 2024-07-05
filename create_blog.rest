@@ -2,8 +2,8 @@ POST http://localhost:3001/api/blogs/ HTTP/1.1
 content-type: application/json
 
 {
-    "title": "Psycho-Cybernetics",
-    "author": "Abram Josh Marcelo",
+    "title": "The Whole Truth 6",
+    "author": "Tek-Knight",
     "url": "https://www.goodreads.com/book/show/30220624-psycho-cybernetics",
-    "likes": 0
+    "likes": 69
 }

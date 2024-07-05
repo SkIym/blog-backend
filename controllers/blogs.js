@@ -1,24 +1,43 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 // no express-async-errors yet, so use try/catch
 
 blogsRouter.get('/', async (request, response) => {
-    const blogs = await Blog.find({})
+    const blogs = await Blog
+        .find({})
+        .populate('user', {'username': 1, 'name': 1})
     response.json(blogs)
 
 })
   
 blogsRouter.post('/', async (request, response, next) => {
-    const blog = new Blog(request.body)
+    const {title, author, url, likes} = new Blog(request.body)
     try {
-        if(!blog.likes) {
-            blog.likes = 0
+        if(!likes) {
+            likes = 0
         }
-        if(!blog.title || !blog.url) {
+        if(!title || !url) {
             response.status(400).end()
         }
+
+        const user = await User.findOne({})
+        
+        const blog = new Blog({
+            title,
+            author,
+            url,
+            likes, 
+            user: user.id
+        })
+
         const savedBlog = await blog.save()
+
+        user.blogs = user.blogs.concat(savedBlog._id)
+
+        await user.save()
+
         response.status(201).json(savedBlog)
     } catch(exception) {
         next(exception)
