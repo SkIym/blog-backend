@@ -1,9 +1,9 @@
 POST http://localhost:3001/api/blogs/ HTTP/1.1
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNlY29uZCBhY2NvdW50IiwiaWQiOiI2Njg3OWUwYjlmNGU2ZThkYTY2YzkzYjQiLCJpYXQiOjE3MjAxNzM0MTQsImV4cCI6MTcyMDE3NzAxNH0.X3JxQfwxlLW2Oq-IPqgjIbJaLc6C4YumBBdCu7HO7ic
 
 {
-    "title": "The Whole Truth 6",
-    "author": "Tek-Knight",
-    "url": "https://www.goodreads.com/book/show/30220624-psycho-cybernetics",
-    "likes": 69
+    "title": "Jesus Christ: The Second Coming",
+    "author": "Apostle Paul",
+    "url": "https://www.biblegateway.com/passage/?search=Revelation+19%3A11-16&version=NIV"
 }
