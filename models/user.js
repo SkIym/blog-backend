@@ -5,15 +5,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        minLength: 3,
+        minLength: 3
     },
-    passwordHash: {
-        type: String,
-        // validation handled by controller since hash is received by mongoose
-    },
-    name: {
-        type: String,
-    },
+    passwordHash: String,
+    name: String,
     blogs: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -30,5 +25,5 @@ userSchema.set('toJSON', {
         delete returnedObject.passwordHash
     }
 })
-
-module.exports = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema)
+module.exports = User
