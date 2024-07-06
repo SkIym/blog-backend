@@ -6,6 +6,7 @@ const initialBlogs = [
         title: "Canonical string reduction",
         author: "Edsger W. Dijkstra",
         url: "https://www.google.com/",
+        user: "6688e49341dd7041fd22ff37",
         likes: 12
     },
     {

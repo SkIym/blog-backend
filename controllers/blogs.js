@@ -6,6 +6,7 @@ const User = require('../models/user')
 // no express-async-errors yet, so use try/catch
 
 blogsRouter.get('/', async (request, response) => {
+
     const blogs = await Blog
         .find({})
         .populate('user', {'username': 1, 'name': 1})
@@ -16,12 +17,6 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
     const blog = new Blog(request.body)
 
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-
-    if(!decodedToken.id) {
-        return response.status(401).json({ error: 'token invalid' })
-    }
-
     if(!blog.likes) {
         blog.likes = 0
     }
@@ -29,7 +24,7 @@ blogsRouter.post('/', async (request, response) => {
         response.status(400).end()
     }
 
-    const user = await User.findById(decodedToken.id)
+    const user = request.user
     blog.user = user.id
 
     const newBlog = new Blog(blog)
@@ -45,11 +40,7 @@ blogsRouter.post('/', async (request, response) => {
 
 blogsRouter.delete('/:id', async (request, response) => {
 
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    if(!decodedToken.id) {
-        return response.status(401).json({ error: 'token invalid'})
-    }
-    const user = await User.findById(decodedToken.id)
+    const user = request.user
     const blog = await Blog.findById(request.params.id)
 
     if (!blog) {
@@ -57,8 +48,6 @@ blogsRouter.delete('/:id', async (request, response) => {
     }
 
     if (blog.user.toString() === user.id) {
-        console.log(blog.user.toString(), user.id)
-        console.log(blog.id)
         await Blog.deleteOne({ _id: blog.id })
     } else {
         return response.status(401).json({ error: 'invalid user' })
