@@ -51,16 +51,21 @@ blogsRouter.delete('/:id', async (request, response) => {
         return response.status(401).json({ error: 'invalid user' })
     }
 
+    user.blogs = user.blogs.filter(b => b._id !== blog.id)
+    await user.save()
     response.status(204).end()
 })
 
 blogsRouter.put('/:id', async (request, response) => {
-    const { title, author, url, likes } = request.body
+
+    const { title, author, url, likes, user} = request.body
+    const user_id = user.id // the user feild data from the frontend is populated
     const updatedBlog = await Blog.findByIdAndUpdate(
         request.params.id,
-        { title, author, url, likes },
+        { title, author, url, likes, user_id },
         { new: true })
-
+    
+    await updatedBlog.populate('user', {'username': 1, 'name': 1})
     response.json(updatedBlog)
 
 })
