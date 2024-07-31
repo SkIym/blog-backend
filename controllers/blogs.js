@@ -71,4 +71,16 @@ blogsRouter.put('/:id', middleware.userExtractor, async (request, response) => {
 
 })
 
+blogsRouter.post('/:id/comments', middleware.userExtractor, async (request, response) => {
+
+    const { content } = request.body
+    const commentedBlog = await Blog.findByIdAndUpdate(
+        request.params.id,
+        { $push: { comments: content}},
+        { new: true })
+
+    await commentedBlog.populate('user', { 'username': 1, 'name': 1 })
+    response.json(commentedBlog)
+})
+
 module.exports = blogsRouter

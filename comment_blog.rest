@@ -1,0 +1,7 @@
+POST http://localhost:3001/api/blogs/6691f84c9dc0aae7b2e2cc5c/comments HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY2ODc3ZGUzNmQzZmQ3OWJmZDExMTA5OCIsImlhdCI6MTcyMjM5ODk0OCwiZXhwIjoxNzIyNDAyNTQ4fQ.CyyE3zU9de60O2Sg69ZUhpjh4ONYC631fxIzhlhfQg0
+
+{
+    "content": "Tengo <3 Aomame"
+}
