@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken')
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const middleware = require('../utils/middleware')
 
 // no express-async-errors yet, so use try/catch
 
@@ -14,7 +15,7 @@ blogsRouter.get('/', async (request, response) => {
 
 })
   
-blogsRouter.post('/', async (request, response) => {
+blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
     const blog = new Blog(request.body)
 
     if(!blog.likes) {
@@ -36,7 +37,7 @@ blogsRouter.post('/', async (request, response) => {
     response.status(201).json(savedBlog)
 })
 
-blogsRouter.delete('/:id', async (request, response) => {
+blogsRouter.delete('/:id', middleware.userExtractor, async (request, response) => {
 
     const user = request.user
     const blog = await Blog.findById(request.params.id)
@@ -56,7 +57,7 @@ blogsRouter.delete('/:id', async (request, response) => {
     response.status(204).end()
 })
 
-blogsRouter.put('/:id', async (request, response) => {
+blogsRouter.put('/:id', middleware.userExtractor, async (request, response) => {
 
     const { title, author, url, likes, user} = request.body
     const user_id = user.id // the user feild data from the frontend is populated
